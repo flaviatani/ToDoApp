@@ -3,8 +3,10 @@ package controller;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 import model.Task;
+import util.ConnectionFactory;
 
 
 public class TaskController {
@@ -17,7 +19,7 @@ public class TaskController {
         
     }
     
-    public void removeById(int taskId){
+    public void removeById(int taskId) throws SQLException{
         
         String sql = "DELETE FROM task WHERE id = ?";
         
@@ -26,7 +28,14 @@ public class TaskController {
         
         try {
             
-        }catch (Exception e){            
+            conn = ConnectionFactory.getConnection();
+            statement = conn.prepareStatement(sql);
+            statement.setInt(1,taskId);
+            statement.execute();            
+        }catch (SQLException e) {
+            throw new SQLException("Erro ao deletar a tarefa");
+        }finally {
+            ConnectionFactory.closeConnection(conn);
         }
     }
     
