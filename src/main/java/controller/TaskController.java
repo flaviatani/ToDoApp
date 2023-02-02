@@ -36,40 +36,71 @@ public class TaskController {
             statement.setBoolean(4,task.isIsCompleted());
             statement.setString(5,task.getNotes());
             statement.setDate(6, new Date(task.getDeadline().getTime()));
-            statement.setBoolean(7, task.isCompleted());
-            statement.setDate(8, new Date(task.getCreatedAt().getTime()));
-            statement.setDate(9, new Date(task.getUpdatedAt().getTime()));
+            statement.setDate(7, new Date(task.getCreatedAt().getTime()));
+            statement.setDate(8, new Date(task.getUpdatedAt().getTime()));
+            statement.execute();
             
-            
-        }catch (SQLException e) {
-            throw new SQLException("Erro ao deletar a tarefa");
+        }catch (Exception ex) {
+            throw new RuntimeException("Erro ao salvar a tarefa" + ex.getMessage(), ex);
         }finally {
-            ConnectionFactory.closeConnection(conn);
+            ConnectionFactory.closeConnection(connection, statement);
         }
         
     }
     
     public void update(Task task){
         
+        String sql = "UPDATE tasks SET "
+                + "idProject = ?, "
+                + "name = ?, "
+                + "description = ?, "
+                + "completed = ?, "
+                + "notes = ?, "
+                + "deadline = ?, "
+                + "createdAt = ?, "
+                + "updatedAt = ?, "
+                + "WHERE id = ?";
+        
+        Connection connection = null;
+        PreparedStatement statement = null;
+        
+        try {            
+            connection = ConnectionFactory.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1,task.getIdProject());
+            statement.setString(1,task.getName());
+            statement.setString(1,task.getDescription());
+            statement.setBoolean(1,task.isIsCompleted());
+            statement.setString(1,task.getNotes());
+            statement.setDate(1, new Date(task.getDeadline().getTime()));
+            statement.setDate(1, new Date(task.getCreatedAt().getTime()));
+            statement.setDate(1, new Date(task.getUpdatedAt().getTime()));
+            statement.execute();   
+            
+        }catch (Exception ex) {
+            throw new RuntimeException("Erro ao salvar a tarefa" + ex.getMessage(), ex);
+        }finally {
+            ConnectionFactory.closeConnection(connection, statement);
+        }
     }
     
     public void removeById(int taskId) throws SQLException{
         
         String sql = "DELETE FROM task WHERE id = ?";
         
-        Connection conn = null;
+        Connection connection = null;
         PreparedStatement statement = null;
         
         try {
             
-            conn = ConnectionFactory.getConnection();
-            statement = conn.prepareStatement(sql);
-            statement.setInt(1,taskId);
+            connection = ConnectionFactory.getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, task.getIdProject());
             statement.execute();            
-        }catch (SQLException e) {
-            throw new SQLException("Erro ao deletar a tarefa");
+        }catch (Exception ex) {
+            throw new RuntimeException("Erro ao deletar a tarefa");
         }finally {
-            ConnectionFactory.closeConnection(conn);
+            ConnectionFactory.closeConnection(connection, statement);
         }
     }
     
