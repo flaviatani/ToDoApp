@@ -66,9 +66,14 @@ public class TaskController {
         Connection connection = null;
         PreparedStatement statement = null;
         
-        try {            
+        try {  
+            //Estabelecendo a conexão com o banco de dados
             connection = ConnectionFactory.getConnection();
+            
+            //preparando a query
             statement = connection.prepareStatement(sql);
+            
+            //Setando os valores do statement
             statement.setInt(1,task.getIdProject());
             statement.setString(2,task.getName());
             statement.setString(3,task.getDescription());
@@ -78,6 +83,8 @@ public class TaskController {
             statement.setDate(7, new Date(task.getCreatedAt().getTime()));
             statement.setDate(8, new Date(task.getUpdatedAt().getTime()));
             statement.setInt(9,task.getId());
+            
+            //Executa a query
             statement.execute();   
             
         }catch (Exception ex) {
@@ -107,7 +114,7 @@ public class TaskController {
         }
     }
     
-    // metodo que busca as infos no banco
+    //Método que busca as infos no banco
     public List<Task> getAll(int idProject){
      
         String sql = "SELECT * FROM tasks WHERE idProject = ?";
@@ -117,16 +124,20 @@ public class TaskController {
         ResultSet resultSet = null;
         
         
-        //lista de tarefas que sera devolvida quando a chamada do metodo acontecer
+        //lista de tarefas que será devolvida quando a chamada do método acontecer
         List<Task> tasks = new ArrayList<>();
 
         try {
             connection = ConnectionFactory.getConnection();
             statement = connection.prepareStatement(sql);
+            
+            //Setando o valor que corresponde ao filtro da busca
             statement.setInt(1, idProject);
+                    
+            //Valor retornado pela execução da query        
             resultSet = statement.executeQuery();
 
-            
+            //Enquanto houverem valores a serem percorridos no meu resultSet
             while (resultSet.next()) {
 
                 Task task = new Task();
@@ -146,6 +157,7 @@ public class TaskController {
         } finally {
            ConnectionFactory.closeConnection(connection, statement, resultSet);
         }
+        //Lista de tarefas que foi criada e carregada do banco de dados 
         return tasks;
     }
 }
