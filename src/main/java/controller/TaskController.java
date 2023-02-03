@@ -157,7 +157,7 @@ public class TaskController {
         } finally {
            ConnectionFactory.closeConnection(connection, statement, resultSet);
         }
-        //Lista de tarefas que foi criada e carregada do banco de dados 
+        //Lista de tarefas que foi criada e carregada do banco de dados  
         return tasks;
     }
 }

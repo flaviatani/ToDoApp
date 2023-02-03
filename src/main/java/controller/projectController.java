@@ -44,6 +44,42 @@ public class projectController {
         }finally {
             ConnectionFactory.closeConnection(connection, statement);
         }
+     }    
+         
+         public void update(project proj){
         
+        String sql = "UPDATE tasks SET "                
+                + "name = ?, "
+                + "description = ?, "                
+                + "createdAt = ?, "
+                + "updatedAt = ?, "
+                + "WHERE id = ?";
+        
+        Connection connection = null;
+        PreparedStatement statement = null;
+        
+        try {  
+            //Estabelecendo a conexão com o banco de dados
+            connection = ConnectionFactory.getConnection();
+            
+            //preparando a query
+            statement = connection.prepareStatement(sql);
+            
+            //Setando os valores do statement
+            statement.setInt(1,proj.getId());
+            statement.setString(2,proj.getName());
+            statement.setString(3,proj.getDescription());
+            statement.setDate(4, new Date(proj.getCreatedAt().getTime()));
+            statement.setDate(5, new Date(proj.getUpdatedAt().getTime()));
+            
+            //Executa a query
+            statement.execute();   
+            
+        }catch (Exception ex) {
+            throw new RuntimeException("Erro ao atualizar a tarefa" + ex.getMessage(), ex);
+        }finally {
+            ConnectionFactory.closeConnection(connection, statement);
+        }
+    
     }
 }
