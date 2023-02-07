@@ -16,7 +16,8 @@ public class TaskController {
     
     public void save(Task task){
         
-        String sql = "INSERT INTO tasks (idProject"
+        String sql = "INSERT INTO tasks ("
+                + "idProject, "
                 + "name,"
                 + "description,"
                 + "completed,"
