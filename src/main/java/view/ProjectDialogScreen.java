@@ -151,15 +151,17 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
     private void jLabelToolBarSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelToolBarSaveMouseClicked
         // TODO add your handling code here:
         
-        project proj = new project();
-        proj.setName(jTextFieldName.getText());
-        proj.setDescription(jTextAreaDescription.getText());
-        
-        controller.save(proj);
-        JOptionPane.showMessageDialog(rootPane,"Projeto salvo com sucesso");
-        
-        this.dispose();
-        
+        try {
+            project proj = new project();
+            proj.setName(jTextFieldName.getText());
+            proj.setDescription(jTextAreaDescription.getText());
+
+            controller.save(proj);
+            JOptionPane.showMessageDialog(rootPane,"Projeto salvo com sucesso");
+        } catch (Exception e){
+            JOptionPane.showMessageDialog(rootPane, e.getMessage());
+        }
+        this.dispose();        
     }//GEN-LAST:event_jLabelToolBarSaveMouseClicked
 
     /**
@@ -173,7 +175,7 @@ public class ProjectDialogScreen extends javax.swing.JDialog {
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
+                if ("Java swing".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
                 }
