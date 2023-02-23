@@ -5,8 +5,13 @@
  */
 package view;
 
+import controller.TaskController;
+import controller.projectController;        
 import java.awt.Color;
 import java.awt.Font;
+import java.util.List;
+import javax.swing.DefaultListModel;
+import model.project;
 
 /**
  *
@@ -14,13 +19,18 @@ import java.awt.Font;
  */
 public class MainScreen extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainScreen
-     */
+    projectController projController;
+    TaskController taskController;
+    
+    DefaultListModel<project> projectModel;
+        
     public MainScreen() {
         initComponents();
         decorateTableTask();
-                
+        
+        initDataController();
+        initComponetsModel();
+        
     }
 
     /**
@@ -389,4 +399,25 @@ public class MainScreen extends javax.swing.JFrame {
         jTableTasks.setAutoCreateRowSorter(true);
     }
     
+    public void initDataController(){
+        
+        projController = new projectController();
+        taskController = new TaskController();
+    }
+    
+    public void initComponetsModel(){
+        projectModel = new DefaultListModel<project>();
+        loadProjects();
+    }
+    
+    public void loadProjects(){
+        List<project> projects = projController.getAll();
+        
+        projectModel.clear();
+        
+        for (int i = 0; i < projects.size() -1; i++){
+        
+        }
+        
+    }
 }

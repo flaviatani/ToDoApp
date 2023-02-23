@@ -19,11 +19,7 @@ public class projectController {
     
      public void save(project proj){
         
-        String sql = "INSERT INTO projects (name, "
-                + "description,"
-                + "createdAt,"
-                + "updatedAt) "
-                + "VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO projects(name, description, createdAt, updatedAt) VALUES (?, ?, ?, ?)";
         
         Connection connection = null;
         PreparedStatement statement = null;
